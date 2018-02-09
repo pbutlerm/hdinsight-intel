@@ -99,7 +99,7 @@
                     "roles":[
                         {
                             "name": "headnode",
-                            "targetInstanceCount": "2",
+                            "targetInstanceCount": "1",
                             "hardwareProfile": {
                                 "vmSize": "Standard_D12_v2"
                             },
@@ -110,7 +110,13 @@
                                 }
                             },
                             "virtualNetworkProfile": null,
-                            "scriptActions": []
+                            "scriptActions": [
+                                {
+                                    "name": "install-script-1",
+                                    "uri": "https://bigdlhdinsightoffer.blob.core.windows.net/hdinsightbigdlv04a/Intel-BigDL-Install.sh",
+                                    "parameters": ""
+                                  }
+                            ]
                         },
                         {
                             "name": "workernode",
