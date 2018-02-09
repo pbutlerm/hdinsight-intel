@@ -4,7 +4,7 @@
 #BIGDL_TARFILEURI=https://bigdlhdinsightoffer.blob.core.windows.net/hdinsightbigdlv04a/dist-spark-2.2.0-scala-2.11.8-all-0.4.0-dist.zip
 #WEBWASB_TARFILE=dist-spark-2.2.0-scala-2.11.8-all-0.4.0-dist.zip
 BIGDL_TARFILEURI=https://bigdlhdinsightoffer.blob.core.windows.net/hdinsightbigdlv04a/dist-spark-2.1.1-scala-2.11.8-all-0.4.0-dist.zip
-WEBWASB_TARFILE=dist-spark-2.1.1-scala-2.11.8-all-0.4.0-dist.zip
+BIGDL_TARFILE=dist-spark-2.1.1-scala-2.11.8-all-0.4.0-dist.zip
 HOMEDIR=$(pwd)
 
 #Functions 
@@ -16,19 +16,20 @@ if [ "$(id -u)" != "0" ]; then
     usage
 fi
 
+echo "creating directories"
 mkdir BigDL
 cd BigDL
 
 echo "Downloading webwasb tar file"
-wget $WEBWASB_TARFILEURI 
+wget $BIGDL_TARFILEURI 
     
 echo "Unzipping webwasb-tomcat"
 #tar -zxvf $WEBWASB_TARFILE -C /usr/share/
-unzip $WEBWASB_TARFILE
-rm $WEBWASB_TARFILE
+unzip $BIGDL_TARFILE
+rm $BIGDL_TARFILE
 
 echo "Installing scala"
-#sudo apt-get install scala
+sudo apt-get install scala -y
 
 echo "checking scala version"
 scala -version
@@ -42,6 +43,8 @@ spark-submit --version
 export BIGDL_HOME=$HOMEDIR/BigDL
 #export SPARK_HOME=/usr/local/spark #SPARK_HOME is already exported by default in HDInsight
 
+export "BIGDL_HOME"=$BIGDL_HOME 
+echo "BIGDL_HOME="$BIGDL_HOME >> /etc/environment
 echo "BIGDL_HOME " $BIGDL_HOME
 echo "SPARK_HOME " $SPARK_HOME
 
