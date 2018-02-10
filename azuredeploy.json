@@ -114,7 +114,7 @@
                                 {
                                     "name": "install-script-1",
                                     "uri": "https://bigdlhdinsightoffer.blob.core.windows.net/hdinsightbigdlv04a/Intel-BigDL-Install.sh",
-                                    "parameters": ""
+                                    "parameters": "parameters('sshUserName')"
                                   }
                             ]
                         },
