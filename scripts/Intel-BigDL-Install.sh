@@ -7,6 +7,9 @@ BIGDL_TARFILEURI=https://bigdlhdinsightoffer.blob.core.windows.net/hdinsightbigd
 BIGDL_TARFILE=dist-spark-2.1.1-scala-2.11.8-all-0.4.0-dist.zip
 HOMEDIR=$(pwd)
 
+# Parameters 
+user_name=$1
+
 #Functions 
 
 #Execution 
@@ -16,7 +19,10 @@ if [ "$(id -u)" != "0" ]; then
     usage
 fi
 
-echo "creating directories"
+echo "creating directories for the SSH User"
+echo $user_name
+echo pwd
+cd /home/$user_name
 mkdir BigDL
 cd BigDL
 
