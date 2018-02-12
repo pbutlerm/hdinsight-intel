@@ -11,13 +11,29 @@ HOMEDIR=$(pwd)
 user_name=$1
 
 #Functions 
+usage() {
+    echo ""
+    echo "Usage: sudo -E bash Intel-BigDL-Install.sh";
+    echo "This script needs the SSH User name as a parameter";
+    exit 132;
+}
 
 #Execution 
 ##############################
+echo "Staring : Intel-BigDL-Install.sh....";
+
+# Check for Root
 if [ "$(id -u)" != "0" ]; then
     echo "[ERROR] The script has to be run as root."
     usage
 fi
+
+# Check for Parameters (one required)
+if [[ $# -eq 0 ]]; then
+    echo '[ERROR] The script requires the SSH User name.'
+    usage
+fi
+
 
 echo "creating directories for the SSH User"
 echo $user_name
