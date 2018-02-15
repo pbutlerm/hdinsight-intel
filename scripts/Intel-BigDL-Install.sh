@@ -1,4 +1,8 @@
 #! /bin/bash
+LOG_LOCATION=/var/log
+exec > >(tee -i $LOG_LOCATION/mylogfile.log)
+exec 2>&1
+echo "Log Location should be: [ $LOG_LOCATION ]"
 
 #Variables 
 #BIGDL_TARFILEURI=https://bigdlhdinsightoffer.blob.core.windows.net/hdinsightbigdlv04a/dist-spark-2.2.0-scala-2.11.8-all-0.4.0-dist.zip
@@ -44,6 +48,7 @@ cd BigDL
 
 echo "Downloading webwasb tar file"
 wget $BIGDL_TARFILEURI 
+
     
 echo "Unzipping webwasb-tomcat"
 #tar -zxvf $WEBWASB_TARFILE -C /usr/share/
@@ -80,3 +85,5 @@ PASSWD=$(echo -e "import hdinsight_common.ClusterManifestParser as ClusterManife
 export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
 
 echo JAVA_HOME=$JAVA_HOME
+
+
