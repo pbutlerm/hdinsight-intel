@@ -1,5 +1,7 @@
 #! /bin/bash
-LOG_LOCATION=/var/log
+
+#LOG_LOCATION=/var/log
+LOG_LOCATION=/tmp
 exec > >(tee -i $LOG_LOCATION/mylogfile.log)
 exec 2>&1
 echo "Log Location should be: [ $LOG_LOCATION ]"
@@ -13,6 +15,7 @@ HOMEDIR=$(pwd)
 
 # Parameters 
 user_name=$1
+echo "user_name:" $user_name 
 
 #Functions 
 usage() {
@@ -27,16 +30,16 @@ usage() {
 echo "Staring : Intel-BigDL-Install.sh....";
 
 # Check for Root
-if [ "$(id -u)" != "0" ]; then
-    echo "[ERROR] The script has to be run as root."
-    usage
-fi
+#if [ "$(id -u)" != "0" ]; then
+#    echo "[ERROR] The script has to be run as root."
+#    usage
+#fi
 
 # Check for Parameters (one required)
-if [[ $# -eq 0 ]]; then
-    echo '[ERROR] The script requires the SSH User name.'
-    usage
-fi
+#if [[ $# -eq 0 ]]; then
+#    echo '[ERROR] The script requires the SSH User name.'
+#    usage
+#fi
 
 
 echo "creating directories for the SSH User"
