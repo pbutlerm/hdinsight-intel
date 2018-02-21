@@ -11,11 +11,13 @@ echo "Log Location should be: [ $LOG_LOCATION ]"
 #WEBWASB_TARFILE=dist-spark-2.2.0-scala-2.11.8-all-0.4.0-dist.zip
 BIGDL_TARFILEURI=https://bigdlhdinsightoffer.blob.core.windows.net/hdinsightbigdlv04a/dist-spark-2.1.1-scala-2.11.8-all-0.4.0-dist.zip
 BIGDL_TARFILE=dist-spark-2.1.1-scala-2.11.8-all-0.4.0-dist.zip
-HOMEDIR=$(pwd)
 
 # Parameters 
 user_name=$1
 echo "user_name:" $user_name 
+HOMEDIR=/home/$user_name
+echo "HOMEDIR" $HOMEDIR
+
 
 #Functions 
 usage() {
@@ -48,8 +50,9 @@ echo pwd
 cd /home/$user_name
 mkdir BigDL
 cd BigDL
+CURRENT_LOCATION=$(pwd)
 
-echo "Downloading webwasb tar file"
+echo "Downloading webwasb tar file into " $CURRENT_LOCATION
 wget $BIGDL_TARFILEURI 
 
     
@@ -73,7 +76,7 @@ spark-submit --version
 export BIGDL_HOME=$HOMEDIR/BigDL
 #export SPARK_HOME=/usr/local/spark #SPARK_HOME is already exported by default in HDInsight
 
-export "BIGDL_HOME"=$BIGDL_HOME 
+#export "BIGDL_HOME"=$BIGDL_HOME 
 echo "BIGDL_HOME="$BIGDL_HOME >> /etc/environment
 echo "BIGDL_HOME " $BIGDL_HOME
 echo "SPARK_HOME " $SPARK_HOME
