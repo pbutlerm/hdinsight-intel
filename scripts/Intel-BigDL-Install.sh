@@ -1,14 +1,17 @@
 #! /bin/bash
 
-#LOG_LOCATION=/var/log
-LOG_LOCATION=/tmp
-exec > >(tee -i $LOG_LOCATION/mylogfile.log)
+#Creating log file
+mkdir -p /opt/intelbigdl/var/log
+LOGFILE="/opt/intelbigdl/var/log/execution.log"
+touch $LOGFILE
+chmod 700 $LOGFILE
+
+#Forcing all script output to log file
+exec > >(tee -i $LOGFILE)
 exec 2>&1
-echo "Log Location should be: [ $LOG_LOCATION ]"
+echo "Log Location should be: [ $LOGFILE ]"
 
 #Variables 
-#BIGDL_TARFILEURI=https://bigdlhdinsightoffer.blob.core.windows.net/hdinsightbigdlv04a/dist-spark-2.2.0-scala-2.11.8-all-0.4.0-dist.zip
-#WEBWASB_TARFILE=dist-spark-2.2.0-scala-2.11.8-all-0.4.0-dist.zip
 BIGDL_TARFILEURI=https://bigdlhdinsightoffer.blob.core.windows.net/hdinsightbigdlv04a/dist-spark-2.1.1-scala-2.11.8-all-0.4.0-dist.zip
 BIGDL_TARFILE=dist-spark-2.1.1-scala-2.11.8-all-0.4.0-dist.zip
 
@@ -32,16 +35,16 @@ usage() {
 echo "Staring : Intel-BigDL-Install.sh....";
 
 # Check for Root
-#if [ "$(id -u)" != "0" ]; then
-#    echo "[ERROR] The script has to be run as root."
-#    usage
-#fi
+if [ "$(id -u)" != "0" ]; then
+    echo "[ERROR] The script has to be run as root."
+    usage
+fi
 
 # Check for Parameters (one required)
-#if [[ $# -eq 0 ]]; then
-#    echo '[ERROR] The script requires the SSH User name.'
-#    usage
-#fi
+if [[ $# -eq 0 ]]; then
+    echo '[ERROR] The script requires the SSH User name.'
+    usage
+fi
 
 
 echo "creating directories for the SSH User"
@@ -53,8 +56,15 @@ cd BigDL
 CURRENT_LOCATION=$(pwd)
 
 echo "Downloading webwasb tar file into " $CURRENT_LOCATION
-wget $BIGDL_TARFILEURI 
-
+#wget $BIGDL_TARFILEURI 
+#Re-Try + Backoff for Downloading of the file
+for RETRY in 1 2 3 4 5 ; do
+  wget  $BUNDLE_TGZ_URI 
+  if [ "x$?" = "x0" ] ; then
+    break
+  fi
+  sleep $RETRY
+done
     
 echo "Unzipping webwasb-tomcat"
 #tar -zxvf $WEBWASB_TARFILE -C /usr/share/
@@ -92,4 +102,4 @@ export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
 
 echo JAVA_HOME=$JAVA_HOME
 
-
+exit 0
