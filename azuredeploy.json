@@ -8,6 +8,13 @@
                 "description":"The name of the HDInsight cluster to create."
             }
         },
+        "clusterWorkerNodeCount": {
+            "type": "int",
+            "defaultValue": 2,
+            "metadata": {
+              "description": "The number of nodes in the HDInsight cluster."
+            }
+        },
         "clusterLoginUserName":{
             "type":"string",
             "defaultValue":"admin",
@@ -26,13 +33,6 @@
             "defaultValue":"sshuser",
             "metadata":{
                 "description":"These credentials can be used to remotely access the cluster."
-            }
-        },
-        "clusterWorkerNodeCount": {
-            "type": "int",
-            "defaultValue": 2,
-            "metadata": {
-              "description": "The number of nodes in the HDInsight cluster."
             }
         },
         "sshPassword":{
@@ -122,7 +122,7 @@
                             "name": "workernode",
                             "targetInstanceCount": "[parameters('clusterWorkerNodeCount')]",
                             "hardwareProfile": {
-                                "vmSize": "Standard_D13_v2"
+                                "vmSize": "Standard_D12_v2"
                             },
                             "osProfile":{
                                 "linuxOperatingSystemProfile":{
