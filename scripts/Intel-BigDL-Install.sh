@@ -59,7 +59,7 @@ echo "Downloading webwasb tar file into " $CURRENT_LOCATION
 #wget $BIGDL_TARFILEURI 
 #Re-Try + Backoff for Downloading of the file
 for RETRY in 1 2 3 4 5 ; do
-  wget  $BUNDLE_TGZ_URI 
+  wget  $BIGDL_TARFILEURI 
   if [ "x$?" = "x0" ] ; then
     break
   fi
@@ -83,6 +83,9 @@ java -version
 echo "checking Spark vesrion"
 spark-submit --version
 
+echo "installing and updating python 'numpy' and 'six' libraries...."
+sudo apt-get install python-numpy -y
+sudo apt-get install python-six -y
 export BIGDL_HOME=$HOMEDIR/BigDL
 #export SPARK_HOME=/usr/local/spark #SPARK_HOME is already exported by default in HDInsight
 
@@ -91,12 +94,6 @@ echo "BIGDL_HOME="$BIGDL_HOME >> /etc/environment
 echo "BIGDL_HOME " $BIGDL_HOME
 echo "SPARK_HOME " $SPARK_HOME
 
-
-USERID=$(echo -e "import hdinsight_common.Constants as Constants\nprint Constants.AMBARI_WATCHDOG_USERNAME" | python)
-
-echo "USERID=$USERID"
-
-PASSWD=$(echo -e "import hdinsight_common.ClusterManifestParser as ClusterManifestParser\nimport hdinsight_common.Constants as Constants\nimport base64\nbase64pwd = ClusterManifestParser.parse_local_manifest().ambari_users.usersmap[Constants.AMBARI_WATCHDOG_USERNAME].password\nprint base64.b64decode(base64pwd)" | python)
 
 export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
 
