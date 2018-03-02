@@ -42,6 +42,7 @@
             }
         }
     },
+
     "variables":{
         "defaultStorageAccount":{
             "name":"[uniqueString(resourceGroup().id)]",
@@ -49,7 +50,6 @@
         }
     },
    
-    
     "resources":[
         {
             "type":"Microsoft.Storage/storageAccounts",
@@ -138,6 +138,7 @@
             }
         }
     ],
+    
     "outputs":{
         "storage":{
         "type": "object",
