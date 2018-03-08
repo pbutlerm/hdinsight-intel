@@ -97,6 +97,7 @@
             ],
             "tags":{},
             "properties":{
+                "applicationType": "CustomApplication",
                 "marketPlaceIdentifier": "[parameters('galleryPackageIdentity')]",
                 "clusterVersion":"3.6",
                 "osType":"Linux",
@@ -161,7 +162,8 @@
                                 {
                                     "name": "[concat('IntelBigDL-install-v4','-' ,uniquestring(variables('applicationName')))]",
                                     "uri": "https://bigdlhdinsightoffer.blob.core.windows.net/hdinsightbigdlv04a/Intel-BigDL-Install.sh",
-                                    "parameters": "[parameters('sshUserName')]"
+                                    "parameters": "[parameters('sshUserName')]",
+                                    "roles": ["edgenode"]
                                   }
                             ]
                         },
@@ -194,11 +196,6 @@
         "cluster":{
             "type":"object",
             "value":"[reference(resourceId('Microsoft.HDInsight/clusters',parameters('clusterName')))]"
-        },
-        "application": {
-            "type": "object",
-            "value": "[reference(resourceId('Microsoft.HDInsight/clusters/applications/',parameters('clusterName'), variables('applicationName')))]"
         }
-
     }
 }
