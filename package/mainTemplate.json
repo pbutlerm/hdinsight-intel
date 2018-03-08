@@ -8,13 +8,7 @@
                 "description":"The name of the HDInsight cluster to create."
             }
         },
-        "galleryPackageIdentity": {
-            "type": "string",
-            "metadata": {
-                "description" : "Any non-empty value is accepted. After the package is published, this parameter will be used to link the application install to the details about the application in the marketplace."
-            },
-            "defaultValue": "IntelBigDL"
-        },
+       
         "clusterWorkerNodeCount": {
             "type": "int",
             "defaultValue": 2,
@@ -47,44 +41,26 @@
             "metadata":{
                 "description":"The password must be at least 10 characters in length and must contain at least one digit, one non-alphanumeric character, and one upper or lower case letter."
             }
-        },
-        "edgeNodeSize": {
-            "type": "string",
-            "metadata": {
-                "description": "Size of the edge node that hosts the application"
-            },
-            "defaultValue": "Standard_D3",
-            "allowedValues": [
-                "Standard_A1",
-                "Standard_A2",
-                "Standard_A3",
-                "Standard_A4",
-                "Standard_D1",
-                "Standard_D2",
-                "Standard_D3",
-                "Standard_D4"
-            ]
         }
+     
     },
 
     "variables":{
       
+        "clusterApiVersion": "2015-03-01-preview",
         "applicationName": "IntelBigDL"
     },
    
     "resources":[
         {
-            "type":"Microsoft.HDInsight/clusters",
-            "name":"[parameters('clusterName')]",
+            "type": "Microsoft.HDInsight/clusters/applications",
+            "name": "[concat(parameters('clusterName'),'/', variables('applicationName'))]",
             "location":"[resourceGroup().location]",
-            "apiVersion":"2015-03-01-preview",
-            "dependsOn":[
-                "[concat('Microsoft.Storage/storageAccounts/',variables('defaultStorageAccount').name)]"
-            ],
+            "apiVersion": "[variables('clusterApiVersion')]",
             "tags":{},
             "properties":{
                 "applicationType": "CustomApplication",
-                "marketPlaceIdentifier": "[parameters('galleryPackageIdentity')]",
+                "marketPlaceIdentifier": "IntelBigDL",
                 "clusterVersion":"3.6",
                 "osType":"Linux",
                 "tier":"Standard",
@@ -125,7 +101,7 @@
                             "name": "edgenode",
                             "targetInstanceCount": 1,
                             "hardwareProfile": {
-                                "vmSize": "[parameters('edgeNodeSize')]"
+                                "vmSize": "Standard_D3"
                             },
                             "osProfile":{
                                 "linuxOperatingSystemProfile":{
@@ -169,6 +145,10 @@
         "cluster":{
             "type":"object",
             "value":"[reference(resourceId('Microsoft.HDInsight/clusters',parameters('clusterName')))]"
+        },
+        "application": {
+            "type": "object",
+            "value": "[reference(resourceId('Microsoft.HDInsight/clusters/applications/',parameters('clusterName'), variables('applicationName')))]"
         }
     }
 }
