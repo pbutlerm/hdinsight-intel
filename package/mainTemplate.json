@@ -68,25 +68,11 @@
     },
 
     "variables":{
-        "defaultStorageAccount":{
-            "name":"[uniqueString(resourceGroup().id)]",
-            "type":"Standard_LRS"
-        },
+      
         "applicationName": "IntelBigDL"
     },
    
     "resources":[
-        {
-            "type":"Microsoft.Storage/storageAccounts",
-            "name":"[variables('defaultStorageAccount').name]",
-            "location":"[resourceGroup().location]",
-            "apiVersion":"2016-01-01",
-            "sku":{
-                "name":"[variables('defaultStorageAccount').type]"
-            },
-            "kind":"Storage",
-            "properties":{}
-        },
         {
             "type":"Microsoft.HDInsight/clusters",
             "name":"[parameters('clusterName')]",
@@ -111,16 +97,6 @@
                             "restAuthCredential.password":"[parameters('clusterLoginPassword')]"
                         }
                     }
-                },
-                "storageProfile":{
-                    "storageaccounts":[
-                        {
-                            "name":"[replace(replace(reference(resourceId('Microsoft.Storage/storageAccounts', variables('defaultStorageAccount').name), '2016-01-01').primaryEndpoints.blob,'https://',''),'/','')]",
-                            "isDefault":true,
-                            "container":"[parameters('clusterName')]",
-                            "key":"[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('defaultStorageAccount').name), '2016-01-01').keys[0].value]"
-                        }
-                    ]
                 },
                 "computeProfile":{
                     "roles":[
