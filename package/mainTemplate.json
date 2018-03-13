@@ -53,7 +53,7 @@
             "metadata": {
                 "description": "Size of the edge node that hosts the application"
             },
-            "defaultValue": "Standard_D3",
+            "defaultValue": "Standard_D1",
             "allowedValues": [
                 "Standard_A1",
                 "Standard_A2",
@@ -78,9 +78,6 @@
             "name":"[parameters('clusterName')]",
             "location":"[resourceGroup().location]",
             "apiVersion":"2015-03-01-preview",
-            "dependsOn":[
-                "[concat('Microsoft.Storage/storageAccounts/',variables('defaultStorageAccount').name)]"
-            ],
             "tags":{},
             "properties":{
                 "applicationType": "CustomApplication",
@@ -144,7 +141,7 @@
             "name": "[concat(parameters('clusterName'),'/', variables('applicationName'))]",
             "type": "Microsoft.HDInsight/clusters/applications",
             "location":"[resourceGroup().location]",
-            "apiVersion": "[variables('clusterApiVersion')]",
+            "apiVersion":"2015-03-01-preview",
             "properties": {
               "marketPlaceIdentifier": "[parameters('galleryPackageIdentity')]",
               "computeProfile": {
