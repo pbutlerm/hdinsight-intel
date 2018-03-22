@@ -1,0 +1,80 @@
+{
+    "$schema":"https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion":"1.0.0.0",
+    "parameters":{
+        "clusterName":{
+            "type":"string",
+            "metadata":{
+                "description":"The name of the HDInsight cluster to create."
+            }
+        },
+        "galleryPackageIdentity": {
+            "type": "string",
+            "metadata": {
+                "description" : "Any non-empty value is accepted. After the package is published, this parameter will be used to link the application install to the details about the application in the marketplace."
+            },
+            "defaultValue": "IntelBigDL"
+        },
+        "edgeNodeSize": {
+            "type": "string",
+            "metadata": {
+                "description": "Size of the edge node that hosts the application"
+            },
+            "defaultValue": "Standard_D1",
+            "allowedValues": [
+                "Standard_A1",
+                "Standard_A2",
+                "Standard_A3",
+                "Standard_A4",
+                "Standard_D1",
+                "Standard_D2",
+                "Standard_D3",
+                "Standard_D4"
+            ]
+        },
+       
+        "applicationName": {
+            "type": "string",
+            "metadata": {
+                "description": "The Intel Big Deep Learning application name. Defaults to 'intelbigdl'."
+            },
+            "defaultValue": "intelbigdl"
+        }
+    },
+
+    "variables":{
+      
+    },
+   
+    "resources":[
+        {
+        "type": "Microsoft.HDInsight/clusters/applications",
+        "name": "[concat(parameters('clusterName'), '/', parameters('applicationName'))]",
+        "apiVersion": "2015-03-01-preview",
+        "properties": {
+            "marketPlaceIdentifier": "[parameters('galleryPackageIdentity')]",
+            "computeProfile": {
+                "roles": [{
+                    "name": "edgenode",
+                    "targetInstanceCount": 1,
+                    "hardwareProfile": {
+                        "vmSize": "[parameters('edgeNodeSize')]"
+                    }
+                }]
+            },
+            "installScriptActions": [{
+                    "name": "[concat('IntelBigDL-install-v4-' ,parameters('applicationName'))]",
+                    "uri": "https://bigdlhdinsightoffer.blob.core.windows.net/hdinsightbigdlv04a/Intel-BigDL-Install.sh",
+                    "parameters": "[parameters('sshUserName')]",
+                    "roles": ["edgenode"]
+            }],
+            "applicationType": "CustomApplication"
+        }
+    }],
+    "outputs": {
+        "application": {
+            "type": "object",
+            "value": "[reference(resourceId('Microsoft.HDInsight/clusters/applications/', parameters('clusterName'), parameters('applicationName')))]"
+        }
+    }
+}
