@@ -65,7 +65,11 @@
             "installScriptActions": [{
                     "name": "[concat('IntelBigDL-install-v4-' ,parameters('applicationName'))]",
                     "uri": "https://bigdlhdinsightoffer.blob.core.windows.net/hdinsightbigdlv04a/Intel-BigDL-Install.sh",
+<<<<<<< HEAD
                     "parameters": "sshSser",
+=======
+                    "parameters": "sshUser",
+>>>>>>> e077a16b6f253292c37059e54ed1acc0d4b80968
                     "roles": ["edgenode"]
             }],
             "applicationType": "CustomApplication"
