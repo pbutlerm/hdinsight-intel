@@ -89,6 +89,8 @@ sudo apt-get install python-six -y
 export BIGDL_HOME=$HOMEDIR/BigDL
 #export SPARK_HOME=/usr/local/spark #SPARK_HOME is already exported by default in HDInsight
 
+#/opt/intel/bigdl/ [files]
+
 #export "BIGDL_HOME"=$BIGDL_HOME 
 echo "BIGDL_HOME="$BIGDL_HOME >> /etc/environment
 echo "BIGDL_HOME " $BIGDL_HOME
