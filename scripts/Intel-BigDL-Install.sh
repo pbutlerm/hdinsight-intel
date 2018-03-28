@@ -16,11 +16,11 @@ BIGDL_TARFILEURI=https://bigdlhdinsightoffer.blob.core.windows.net/hdinsightbigd
 BIGDL_TARFILE=dist-spark-2.1.1-scala-2.11.8-all-0.4.0-dist.zip
 
 # Parameters 
-user_name=$1
-echo "user_name:" $user_name 
-HOMEDIR=/home/$user_name
-echo "HOMEDIR" $HOMEDIR
-
+#user_name=$1
+#echo "user_name:" $user_name 
+#HOMEDIR=/home/$user_name
+#echo "HOMEDIR" $HOMEDIR
+HOMEDIR=/opt/intelbigdl
 
 #Functions 
 usage() {
@@ -47,13 +47,15 @@ if [[ $# -eq 0 ]]; then
 fi
 
 
-echo "creating directories for the SSH User"
-echo $user_name
-echo pwd
-cd /home/$user_name
+#echo "creating directories for the SSH User"
+#echo $user_name
+#echo pwd
+#cd /home/$user_name
+cd /opt/intelbigdl
 mkdir BigDL
 cd BigDL
 CURRENT_LOCATION=$(pwd)
+echo pwd
 
 echo "Downloading webwasb tar file into " $CURRENT_LOCATION
 #wget $BIGDL_TARFILEURI 
