@@ -63,13 +63,13 @@
                 }]
             },
             "installScriptActions": [{
-                    "name": "[concat('IntelBigDL-install-v4-' ,parameters('applicationName'))]",
+                    "name": "[concat('IntelBigDL-edgenode-v4-' ,parameters('applicationName'))]",
                     "uri": "https://bigdlhdinsightoffer.blob.core.windows.net/hdinsightbigdlv04a/Intel-BigDL-Install.sh",
                     "parameters": "",
                     "roles": ["edgenode"]
             },
             {
-                "name": "[concat('IntelBigDL-install-v4-' ,parameters('applicationName'))]",
+                "name": "[concat('IntelBigDL-headnode-v4-' ,parameters('applicationName'))]",
                 "uri": "https://bigdlhdinsightoffer.blob.core.windows.net/hdinsightbigdlv04a/Intel-BigDL-Install.sh",
                 "parameters": "",
                 "roles": ["headnode"]
