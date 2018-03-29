@@ -41,10 +41,10 @@ if [ "$(id -u)" != "0" ]; then
 fi
 
 # Check for Parameters (one required)
-if [[ $# -eq 0 ]]; then
-    echo '[ERROR] The script requires the SSH User name.'
-    usage
-fi
+#if [[ $# -eq 0 ]]; then
+#    echo '[ERROR] The script requires the SSH User name.'
+#    usage
+#fi
 
 
 #echo "creating directories for the SSH User"
